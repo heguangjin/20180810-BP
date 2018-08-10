@@ -1,0 +1,61 @@
+<template>
+  <div class="TextContentsSetItem">
+    <span class="tit">{{title}}</span>
+    <input class="con" type="text" @keyup="inputKeyup" @focus="inputFocus" @blur="inputBlur"></input>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: "set-text-content-set-item",
+    data(){
+      return{
+        title: '文字内容',
+      }
+    },
+    // props:['prop'],
+    methods: {
+      inputKeyup: function(){ // 键盘抬起事件，同步input内的
+        let self = this ;
+      
+      },
+      inputFocus: function(){ // 获取焦点时，变更边框颜色
+        if ($(event.target).attr("disabled") === undefined) { // 如果是可编辑状态
+          $(event.target).css({'border-color':'#3089D5','box-shadow':'0 0 5px #3089D5'});
+        }
+      },
+      inputBlur: function(){ // 失去焦点时，变更边框颜色
+        $(event.target).css({'border-color':'#D7D7D7','box-shadow':'none'});
+      }
+    },
+    mounted(){
+      console.log(this.$store.state.component.selectList)
+    }
+  }
+</script>
+
+<style scoped lang="less">
+  .TextContentsSetItem{
+    margin: 0 20px;
+    margin-left: 200px ;
+    width: 245px;
+    height: 60px;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #D7D7D7;
+  }
+  .con{
+    width: 156px;
+    height: 30px;
+    padding: 0 10px;
+    line-height: 30px;
+    border: 1px solid #FFF;
+    border-radius: 5px;
+  }
+  .con:hover{
+    border-color: #3089D5;
+  }
+</style>

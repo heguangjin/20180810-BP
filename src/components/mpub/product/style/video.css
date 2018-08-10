@@ -1,0 +1,251 @@
+/*   主色系   */
+/*  主色透明*/
+/*   常用基础色   */
+.zm-edit-components-productType-proportion {
+  position: relative;
+  height: 55px;
+  line-height: 55px;
+  border-top: 1px solid #d7d7d7;
+}
+.zm-edit-components-productType-proportion .zm-edit-product-productType:hover {
+  box-shadow: 0 0 10px #3089d5;
+  border-color: #3089d5;
+}
+.zm-edit-components-productType-proportion .zm-edit-product-productType:hover svg {
+  fill: #3089d5;
+}
+.zm-edit-components-productType-proportion .zm-edit-product-productType {
+  position: relative;
+  display: inline-block;
+  padding: 0 15px;
+  width: 160px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 3px;
+  border: 1px solid #d7d7d7;
+  outline: none;
+  cursor: pointer;
+  vertical-align: middle;
+  color: #3089d5;
+}
+.zm-edit-components-productType-proportion .zm-edit-product-productType span {
+  color: #3089d5;
+}
+.zm-edit-components-productType-proportion .zm-edit-product-productType span.zm_product_type {
+  width: 95px;
+  height: 55px;
+  line-height: 55px;
+  margin-right: 12px;
+}
+.zm-edit-components-productType-proportion .zm-edit-product-productType .icon_triangle {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  bottom: 0;
+  margin: auto;
+  width: 20px;
+  height: 20px;
+  fill: #BCBCBC;
+  transform: rotate(-90deg);
+  vertical-align: middle;
+}
+.zm-edit-components-productType-proportion .zm-edit-product-productType-ul {
+  position: absolute;
+  top: 45px;
+  left: 77px;
+  z-index: 1000;
+  width: 157px;
+  background: #fff;
+  color: #363636;
+  box-shadow: 0 0 5px #3089d5;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.zm-edit-components-productType-proportion .zm-edit-product-productType-ul li {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 15px;
+  color: #3089d5;
+}
+.zm-edit-components-productType-proportion .zm-edit-product-productType-ul li:hover {
+  background-color: #d6e7f7;
+}
+.zm_product_change span {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  color: #3089d5;
+  font-weight: 700;
+  font-size: 16px;
+}
+.zm_product_change span svg {
+  width: 25px;
+  height: 25px;
+  margin-left: -4px;
+  fill: #3089d5;
+}
+.zm_product_hand span {
+  width: 40px;
+  height: 30px;
+  display: inline-block;
+  color: #3089d5;
+  font-weight: 700;
+  font-size: 16px;
+}
+.zm_product_hand span svg {
+  width: 100%;
+  height: 100%;
+  fill: #3089d5;
+}
+.setVideo {
+  height: 655px;
+  width: 100% ;
+  position: relative;
+  padding-top: 10px;
+  overflow: hidden;
+}
+.setVideo .foot {
+  position: absolute ;
+  height: 50px;
+  width: 100% ;
+  bottom: 0 ;
+  left: 0;
+  background: linear-gradient(#fff, #e4e4e4);
+  border-bottom-left-radius: 5px ;
+  border-bottom-right-radius: 5px ;
+  box-shadow: 0 -2px 0 #eee;
+}
+.setVideo .foot .btn {
+  color: #fff;
+  background-color: #3089d5;
+  width: 100px ;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -50px;
+  margin-top: -15px;
+  cursor: pointer;
+  border-radius: 2px ;
+}
+.conOn {
+  background-color: #D6E7F7;
+}
+.iconOn {
+  color: #fff;
+}
+.conV {
+  border-bottom: 1px solid #d7d7d7;
+  border-top: 1px solid #d7d7d7;
+  padding: 4px ;
+  margin-bottom: 10px ;
+  height: 60px;
+}
+.conV div {
+  float: left;
+  margin-left: 4px ;
+  position: relative;
+}
+.conV .left {
+  width: 89px;
+  height: 50px;
+  background: blueviolet ;
+}
+.conV .left .iconfont {
+  display: block;
+  position: absolute;
+  left: 2px;
+  bottom: 2px ;
+  color: #3089d5;
+  font-size: 10px ;
+}
+.conV .left img {
+  width: 100%;
+  height: 100%;
+}
+.conV .mid {
+  width: 120px;
+  font: 12px "微软雅黑";
+  margin-left: 6px ;
+  height: 50px;
+}
+.conV .mid .titleName {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% ;
+  height: 50px;
+  border-radius: 3px ;
+  resize: none ;
+  border: none ;
+  background-color: transparent ;
+}
+.conV .mid .textOn {
+  box-shadow: 0 0 5px #3089d5;
+  background-color: #fff;
+}
+.conV .right {
+  width: 54px;
+  height: 50px;
+}
+.conV .right .iconfont {
+  display: block;
+  position: absolute;
+  left: 50%;
+  bottom: 50% ;
+  margin-left: -10px;
+  margin-bottom: -14px;
+  color: #3089d5;
+  font-size: 24px ;
+  cursor: pointer;
+}
+.conV .right .set {
+  position: absolute;
+  top: 114%;
+  right: 0;
+  width: 176px ;
+  box-shadow: 0 0 5px #ddd ;
+  border-radius: 3px ;
+  overflow: hidden;
+}
+.conV .right .set li {
+  list-style: none ;
+  height: 30px;
+  line-height: 30px;
+  text-align: left ;
+  padding: 0 10px ;
+  cursor: pointer;
+}
+.set li:hover {
+  background: #EAF3FB ;
+}
+.none {
+  text-align: center ;
+  font-size: 16px;
+  font-family: "微软雅黑";
+  color: #3089d5;
+  font-weight: bold ;
+  line-height: 34px ;
+}
+.none2,
+.none3 {
+  text-align: center ;
+  font-size: 16px;
+  font-family: "微软雅黑";
+  color: #3089d5;
+  font-weight: bold ;
+  line-height: 34px ;
+}
+.none2 span,
+.none3 span {
+  transform: scale(1.2, 1.2);
+}
+.none2 {
+  margin-top: 363px;
+}
+.zm_product_hand {
+  margin-left: 119px;
+}

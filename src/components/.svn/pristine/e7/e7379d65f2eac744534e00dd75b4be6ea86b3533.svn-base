@@ -1,0 +1,184 @@
+<template>
+    <div :id="id" :uid="uid" class="zm-component-main" :style="{position: 'absolute', width: style.width+'px',height: style.height+'px',left: style.left+'px',top: style.top+'px',zIndex: style.zIndex}" @mousedown.stop.prevent.left="mousedown($event),other($event)" @contextmenu.stop.prevent="openMenu">
+      
+    <!-- 图片 -->
+    <div class="zm-component-banner" data-type-banner="image" v-if="backgroundData.previewData.type=='img'">
+        <div class="zm-bg-banner-PIC" :style="{backgroundImage:backgroundData.previewData?'url('+backgroundData.previewData.poster+')' : 'url(http://image.zuma.com/upload/976433818364712059.jpg)'}"></div>
+        <div class="zm-bg-banner-vein" :style="{backgroundImage:texturePicture}"></div>
+    </div>
+
+    <!-- 颜色 -->
+    <div class="zm-component-banner zm-component-banner-one" data-type-banner="color" v-else-if="backgroundData.previewData.type=='color'">
+        <div class="zm-bg-banner-BGC" :style="{backgroundColor:backgroundData.previewData?backgroundData.previewData.color : rgb}"></div>
+    </div>
+
+    <!-- 视频 -->
+    <div class="zm-component-banner zm-component-banner-one" data-type-banner="video" v-show="backgroundData.previewData.type=='video'">
+        <div class="zm-bg-banner-Video">
+            <video :src="backgroundData.previewData?backgroundData.previewData.src : src" :poster="backgroundData.previewData?backgroundData.previewData.poster : ''" autoplay="false" loop="true" ref="video"></video>
+        </div>
+        <span v-show="svgShow" class="span-video iconfont icon-videoBgyulan"></span>
+        <div class="zm-bg-banner-vein" :style="{backgroundImage:texturePicture}"></div>
+    </div>
+
+  </div>
+</template>
+<script>
+// import mixin from './mixin.js'
+export default {
+  data () {
+    return {
+      videoShow:true,
+      colorShow:false,
+      picShow:false,
+      svgShow:true,
+      url: "http://image.zuma.com/upload/976346440358859899.jpg",
+      src: 'http://image.zuma.com/upload/968828205866584890.mp4',
+      rgb: '#E3663E',
+      bannerTitle:"横条背景",
+      nowIndex: 0,
+      id: '',
+      uid: '',
+      inrowlayer: '',
+      style: {
+          width: 1893,
+          height: 300,
+          left: 0,
+          top: 0,
+          zIndex: 0,
+          rotate: 0
+      },
+      pattern: [1,1,1,1,1,1,1,1],
+      isShowRotateBtn: false,
+      buttonList:[
+        {type:'editor',title:"编辑",icon:'icon-110',callback:this.cl2},
+        {type:'notFullPage',title:"取消全屏",icon:'icon-puman',callback:this.fullOrNotPage},
+        {type:'bannerSet',title:'设置',icon:'icon-shezhi2',callback:this.cl2},
+        {type:'style',title:'样式切换',icon:'icon-style'},
+        {type:'del',title:'删除',icon:'icon-delete'}
+      ],
+      backgroundData:{
+        isVideoPlay: true,
+        isLoopPlay: true,
+        isActive: false,
+        playSpeed: '正常播放',
+        nowIndex: 0,
+        tabIndex: 0,
+        textureIndex: 0,
+        depthIndex: 0,
+        historyList: null,
+        initList: null,
+        previewData: {type: 'img', poster: 'http://image.zuma.com/upload/976346440358859899.jpg'},
+        nowVideo: null
+      }
+    }
+  },
+  computed:{
+      texturePicture(){
+        let url = '';
+        if(this.backgroundData.depthIndex === 0){
+          url = 'url(http://local.zuma.com:8888/background/light_0' + this.backgroundData.textureIndex + '.png)'
+        } else{
+          url = 'url(http://local.zuma.com:8888/background/dark_0' + this.backgroundData.textureIndex + '.png)'
+        }
+        return url;
+      } 
+  },
+  // mixins: [ mixin ],//混入，组件自身的属性优先
+  methods:{
+      other(e){
+        zmEditor.$children[0].isCtrlShow = true; //编辑框显示;
+      },
+      cl2(){
+        event.currentTarget.getAttribute("title").trim() == "编辑" ? this.bannerTitle = "横条背景" : this.bannerTitle = "横条设置"
+        event.currentTarget.getAttribute("title").trim() == "编辑" ? this.nowIndex = 0 : this.nowIndex = 1;
+        zmEditor.$store.commit('setBackgroundData', {key: 'comType', value: 'banner'});
+        zmEditor.$store.commit('changePaneData', {key: 'paneType', value: true});
+        zmEditor.$store.commit('changePaneData', {key: 'paneTitle', value: this.bannerTitle});
+        // this.previewData = {type: 'img', poster: this.url}
+        // zmEditor.$store.commit('setBackgroundData', {key: 'previewBannerData', value: {type: 'img', poster: this.url}});
+        zmEditor.$store.commit('changePaneData', {key: 'paneMode', value: "/editor/pane/backgroundPreview.vue"});
+        zmEditor.$store.commit('setBackgroundData', {key: 'nowShowStyle', value: 'img'});
+        this.backgroundData.tabIndex = this.nowIndex;
+        // this.nowVideo = this.$refs.video;
+        // zmEditor.$store.commit('setBackgroundData', {key: 'tabBannerIndex', value: this.nowIndex});
+        // zmEditor.$store.commit('setBackgroundData', {key: 'controlBannerVideo', value: this.$refs.video});
+        console.log(zmEditor.$store.state.background.settingData)
+    },
+    fullOrNotPage:function(){
+        console.log("fullOrNotPage")
+        let FullPageObj = {type:'fullPage',title:"全屏",icon:'icon-quanping1',callback:this.fullOrNotPage}
+        let notFullPageObj = {type:'notFullPage',title:"取消全屏",icon:'icon-puman',callback:this.fullOrNotPage}
+        if(this.buttonList[1].type === "notFullPage"){
+            this.style.width = 1200;
+            this.style.left = 0
+            this.buttonList.splice(1,1,FullPageObj)
+        }else{
+            this.style.width = 1893;
+            this.style.left = -345
+            this.buttonList.splice(1,1,notFullPageObj)
+        }
+    },
+  },
+  mounted:function(){
+    this.backgroundData.nowVideo = this.$refs.video;
+    //  console.log(this.$store.state)
+    //  console.log(this.props)
+  }
+ }
+</script>
+<style scoped>
+  .zm-component-main{
+      width: 1903px;
+      height: 300px;
+  }
+  .zm-component-banner{
+    width: 100%;
+    height: 100%;
+    position:relative;
+  }
+
+  .zm-bg-banner-PIC{
+    width: 100%;
+    height: 100%;
+    background-size:cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .zm-bg-banner-BGC{
+    width: 100%;
+    height: 100%;
+  }
+
+  .zm-bg-banner-Video{
+    width: 100%;
+    height: 100%;
+    overflow:hidden
+  }
+  video{
+    object-fit: cover;
+    width:100%;
+    height:100%;
+  }
+  .span-video{
+    display: inline-block; 
+    width: 30px; 
+    height: 30px; 
+    position: absolute; 
+    left: 3px; 
+    bottom: 2px; 
+    color: rgb(255, 255, 255); 
+    font-size: 28px;
+    /* background-color:red */
+  }
+  .zm-bg-banner-vein{
+    z-index:1;
+    width: 100%; 
+    height: 100%;
+
+    left:0px;
+    top:0px;
+    position:absolute;
+  }
+</style>

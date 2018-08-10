@@ -1,0 +1,216 @@
+<template>
+  <div class="family" @click.stop="selFamilyList">
+    <div class="textWrap">
+      <span v-text="textCon"></span>
+      <i class="iconfont icon-xiangxia"></i>
+    </div>
+    <ul @mouseleave.stop="leave" class="familyUl content mCustomScrollbar _mCS_1" id="familyUl">
+        <div class="mCustomScrollBox">
+          <div class="mCSB_container">
+            <li v-for="(val,key) in item" @click.stop="selFamily(key)" v-text="val.label"></li>
+          </div>
+          <div class="mCSB_scrollTools">
+            <div class="mCSB_draggerContainer">
+              <div class="mCSB_dragger ui-draggable">
+              </div>
+              <div class="mCSB_draggerRail"></div>
+            </div>
+          </div>
+      </div>
+    </ul>
+  </div>
+</template>
+
+<script>
+  import aaa from '../../static/shapeConfig1'
+  export default {
+    name: "set-font-family",
+    data(){
+      return{
+        textCon:"华文仿宋",
+        ulShow:false,
+        item:[
+          {label:'方正舒体', fontFamily:'方正舒体'},
+          {label:'方正姚体', fontFamily:'方正姚体'},
+          {label:'仿宋', fontFamily:'仿宋'},
+          {label:'黑体', fontFamily:'黑体'},
+          {label:'华文彩云', fontFamily:'华文彩云'},
+          {label:'华文仿宋', fontFamily:'华文仿宋'},
+          {label:'华文行楷', fontFamily:'华文行楷'},
+          {label:'华文琥珀', fontFamily:'华文琥珀'},
+          {label:'华文楷体', fontFamily:'华文楷体'},
+          {label:'华文隶书', fontFamily:'华文隶书'},
+          {label:'华文宋体', fontFamily:'华文宋体'},
+          {label:'华文细黑', fontFamily:'华文细黑'},
+          {label:'华文新魏', fontFamily:'华文新魏'},
+          {label:'华文中宋', fontFamily:'华文中宋'},
+          {label:'楷体', fontFamily:'楷体'},
+          {label:'隶书', fontFamily:'隶书'},
+          {label:'宋体', fontFamily:'宋体'},
+          {label:'微软雅黑', fontFamily:'微软雅黑'},
+          {label:'新宋体', fontFamily:'新宋体'},
+          {label:'幼圆', fontFamily:'幼圆'},
+          {label:'Arial', fontFamily:'Arial'},
+          {label:'Helvetica', fontFamily:'Helvetica'},
+          {label:'Times New Roman', fontFamily:'Times New Roman'},
+          {label:'Kokila', fontFamily:'Kokila'},
+          {label:'SimSun-ExtB', fontFamily:'SimSun-ExtB'},
+          {label:'Garamond', fontFamily:'Garamond'},
+          {label:'Bodoni MT', fontFamily:'Bodoni MT'},
+          {label:'Adobe Arabic', fontFamily:'Adobe Arabic'},
+          {label:'Adobe Caslon', fontFamily:'Adobe Caslon'},
+          {label:'Adobe Devanagari', fontFamily:'Adobe Devanagari'},
+          {label:'Adobe Garamond', fontFamily:'Adobe Garamond'},
+          {label:'Adobe Hebrew', fontFamily:'Adobe Hebrew'},
+          {label:'Axure Handwriting', fontFamily:'Axure Handwriting'},
+          {label:'cooper', fontFamily:'cooper'},
+          {label:'Chaparral Pro', fontFamily:'Chaparral Pro'},
+          {label:'Minion Pro', fontFamily:'Minion Pro'},
+          {label:'Myriad Pro', fontFamily:'Myriad Pro'},
+          {label:'Nueva Std', fontFamily:'Nueva Std'},
+          {label:'Orator Std', fontFamily:'Orator Std'},
+          {label:'Roboto', fontFamily:'Roboto'},
+          {label:'Tekton Pro', fontFamily:'Tekton Pro'},
+          {label:'Adobe Naskh', fontFamily:'Adobe Naskh'},
+          {label:'Arvo', fontFamily:'Arvo'},
+          {label:'Birch Std', fontFamily:'Birch Std'},
+          {label:'Brush Script Std', fontFamily:'Brush Script Std'},
+          {label:'Droid Serif', fontFamily:'Droid Serif'},
+          {label:'Giddyup Std', fontFamily:'Giddyup Std'},
+          {label:'Hobo Std', fontFamily:'Hobo Std'},
+          {label:'Lobster', fontFamily:'Lobster'},
+          {label:'Mesquite Std', fontFamily:'Mesquite Std'},
+          {label:'Microsoft Uighur', fontFamily:'Microsoft Uighur'},
+          {label:'Open Sans', fontFamily:'Open Sans'},
+          {label:'Poiret One', fontFamily:'Poiret One'},
+          {label:'Prestige Elite Std', fontFamily:'Prestige Elite Std'},
+          {label:'Raleway', fontFamily:'Raleway'}
+        ]
+      }
+    },
+    // props:['prop'],
+    methods:{
+      selFamilyList(){
+        $(function () {
+          let familyUl = $(".familyUl").eq(0) ;
+          let mark = familyUl.css("display") ;
+          if(mark === "none"){
+            familyUl.css({
+              "display":"block"
+            }) ;
+            familyUl.mCustomScrollbar() ;
+            familyUl.stop().animate({
+              "height":"200"
+            }) ;
+          }else {
+            familyUl.stop().animate({
+              "height":"20"
+            },200,function () {
+              familyUl.css({
+                "display":"none"
+              }) ;
+            }) ;
+          }
+        });
+      },
+      selFamily(index){
+        $(function(){
+          console.log(aaa) ;
+          let familyUl = $(".familyUl").eq(0) ;
+          familyUl.stop().animate({
+            "height":"20"
+          },200,function () {
+            familyUl.css({
+              "display":"none"
+            }) ;
+          }) ;
+          let self = this ;
+        });
+      },
+      leave(){
+        $(function () {
+          let familyUl = $(".familyUl").eq(0) ;
+          familyUl.stop().animate({
+            "height":"20"
+          },200,function () {
+            familyUl.css({
+              "display":"none"
+            }) ;
+          }) ;
+        });
+      }
+    },
+    mounted(){
+      // console.log(this.$store.state.selectList)
+    }
+  }
+</script>
+
+<style scoped>
+  .family{
+    width: 62px;
+    height: 28px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    line-height: 28px;
+    margin-top: 8px;
+    padding: 0 10px;
+    padding-right: 15px;
+    cursor: pointer;
+    position: relative;
+    font-size: 12px;
+    margin-right: 4px;
+    float: left;
+  }
+  .textWrap{
+    overflow: hidden;
+    width: 60px;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+  .family:hover{
+    box-shadow: 0 0 10px #3089D5;
+    border-color:#3089D5 ;
+  }
+  .family:hover .iconfont{
+    color: #3089D5;
+  }
+  .iconfont{
+    color: #ddd;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 5px;
+    font-size: 14px;
+  }
+  ul{
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    border: 1px solid #ddd;
+    width: 86px;
+    padding: 0;
+    text-align: center;
+    border-radius: 3px;
+    height: 0;
+    background: #fff;
+    overflow-x: hidden;
+    z-index: 999;
+  }
+  li{
+    list-style: none;
+    position: relative;
+    height: 30px;
+    width: 100%;
+    white-space:nowrap;
+  }
+  li:hover{
+    background: #d6e7f7;
+  }
+  .list{
+    width: 100%;
+    overflow: hidden;
+  }
+
+</style>

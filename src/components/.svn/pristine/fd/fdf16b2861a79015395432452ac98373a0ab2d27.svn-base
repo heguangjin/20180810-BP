@@ -1,0 +1,455 @@
+<template>
+    <div :id="id" :uid="uid" class="zm-component-main" :style="{position: 'absolute', width: style.width+'px',height: style.height+'px',left: style.left+'px',top: style.top+'px',zIndex: style.zIndex}" @mousedown.stop.prevent.left="mousedown($event),other($event)" @contextmenu.stop.prevent="openMenu">
+      
+      <div  v-for="(item,index) in items" :key="index" :style="{display:display,width:widthListCl[index],height:height}">
+          <div :is="item.component" :index="index" :dataList="nowLength" :widthList='widthList' v-on:titleChanged = "zidingyi" :items='items' :totalWidth='style.width'></div>
+      </div>
+    <div @click.stop = "bannerMainClick" v-show="mainBannerVeinShow" refs="mainBannerVein" class="zm-main-banner-vein" :style="{backgroundImage:texturePicture}"></div>
+  </div>
+</template>
+<script>
+import v from './CombinationBar/comCombinationBannerVideo'
+import i from './CombinationBar/comCombinationBannerPic'
+import c from './CombinationBar/comCombinationBannerColor'
+export default {
+  name: 'vic',
+  data: function () {
+    return {
+      mainBannerVeinShow:true,
+      isCombinationBanner: true,
+      currentIndex:0,
+      backgroundArr:[
+        {
+          isVideoPlay: true,
+          isLoopPlay: true,
+          isActive: false,
+          playSpeed: '正常播放',
+          nowIndex: 0,
+          tabIndex: 0,
+          textureIndex: 0,
+          depthIndex: 0,
+          historyList: null,
+          initList: null,
+          previewData: null,
+          nowVideo: null,
+          background: {
+            val: 0,
+            childLeft: 0,
+            childWidth: 10
+          },
+          coverage: {
+            val: 0,
+            childLeft: 0,
+            childWidth: 10,
+            color: 'rgba(255,255,255,0)'
+          },
+          bottom: {
+            val: 0,
+            childLeft: 0,
+            childWidth: 10,
+            color: 'rgba(255,255,255,0)'
+          }
+        },
+        {
+          isVideoPlay: true,
+          isLoopPlay: true,
+          isActive: false,
+          playSpeed: '正常播放',
+          nowIndex: 0,
+          tabIndex: 0,
+          textureIndex: 0,
+          depthIndex: 0,
+          historyList: null,
+          initList: null,
+          previewData: null,
+          nowVideo: null,
+          background: {
+            val: 0,
+            childLeft: 0,
+            childWidth: 10
+          },
+          coverage: {
+            val: 0,
+            childLeft: 0,
+            childWidth: 10,
+            color: 'rgba(255,255,255,0)'
+          },
+          bottom: {
+            val: 0,
+            childLeft: 0,
+            childWidth: 10,
+            color: 'rgba(255,255,255,0)'
+          }
+        },
+        {
+          isVideoPlay: true,
+          isLoopPlay: true,
+          isActive: false,
+          playSpeed: '正常播放',
+          nowIndex: 0,
+          tabIndex: 0,
+          textureIndex: 0,
+          depthIndex: 0,
+          historyList: null,
+          initList: null,
+          previewData: null,
+          nowVideo: null,
+          background: {
+            val: 0,
+            childLeft: 0,
+            childWidth: 10
+          },
+          coverage: {
+            val: 0,
+            childLeft: 0,
+            childWidth: 10,
+            color: 'rgba(255,255,255,0)'
+          },
+          bottom: {
+            val: 0,
+            childLeft: 0,
+            childWidth: 10,
+            color: 'rgba(255,255,255,0)'
+          }
+        },
+      ],
+      items:[{
+        type:'video',
+        resizeLShow:false,
+        resizeRShow:false,
+        ColumnLabelShow:false,
+        width:0,
+        previewData:null,
+        vienImg:null,
+        textureIndex:0,
+        coverage:null,
+        coverage:'rgba(255,255,255,0)',
+        bottom:'rgba(255,255,255,0)',
+        nowIsSelect:false,
+        depthIndex:0,
+        component: v
+      },{
+        type:'img',
+        resizeLShow:false,
+        resizeRShow:false,
+        ColumnLabelShow:false,
+        width:0,
+        previewData:null,
+        vienImg:null,
+        textureIndex:0,
+        coverage:'rgba(255,255,255,0)',
+        bottom:'rgba(255,255,255,0)',
+        nowIsSelect:false,
+        depthIndex:0,
+        component: i
+      },{
+        type:'color',
+        resizeLShow:false,
+        resizeRShow:false,
+        ColumnLabelShow:false,
+        width:0,
+        previewData:null,
+        vienImg:null,
+        coverage:'rgba(255,255,255,0)',
+        bottom:'rgba(255,255,255,0)',
+        nowIsSelect:false,
+        depthIndex:0,
+        component: c
+      }],
+      widthList:[],
+
+      id: '',
+      uid: '',
+      inrowlayer: '',
+      style: {
+          width: 1893,
+          height: 300,
+          left: 0,
+          top: 0,
+          zIndex: 0,
+          rotate: 0,
+          backgroundColor:'gray',
+      },
+
+      display:'inline-block',
+      height:'100%',
+      pattern: [1,1,1,1,1,1,1,1],
+      isShowRotateBtn: false,
+      buttonList:[
+        {type:'notFullPage',title:"取消全屏",icon:'icon-puman',callback:this.fullOrNotPage},
+        {type:'style',title:'样式切换',icon:'icon-style'},
+        {type:'delBanner',title:'删除',icon:'icon-shanchu2',callback:this.deleteBanner}
+      ],
+      // backgroundData:{
+      //   isVideoPlay: true,
+      //   isLoopPlay: true,
+      //   isActive: false,
+      //   playSpeed: '正常播放',
+      //   nowIndex: 0,
+      //   tabIndex: 0,
+      //   textureIndex: 0,
+      //   depthIndex: 0,
+      //   historyList: null,
+      //   initList: null,
+      //   previewData: null,
+      //   nowVideo: null,
+      //   background: {
+      //     val: 0,
+      //     childLeft: 0,
+      //     childWidth: 10
+      //   },
+      //   coverage: {
+      //     val: 0,
+      //     childLeft: 0,
+      //     childWidth: 10,
+      //     color: 'rgba(255,255,255,0)'
+      //   },
+      //   bottom: {
+      //     val: 0,
+      //     childLeft: 0,
+      //     childWidth: 10,
+      //     color: 'rgba(255,255,255,0)'
+      //   }
+      // },
+    }
+  },
+  watch:{
+    backgroundArr: {//backgroundData监测整个对象的变化，'backgroundData.previewData'监测对象中某个属性的变化（需要加引号）
+　　　　handler(newValue, oldValue) {
+
+            this.items[this.currentIndex].type = this.backgroundArr[this.currentIndex].previewData.type
+            this.items[this.currentIndex].previewData = this.backgroundArr[this.currentIndex].previewData
+            this.items[this.currentIndex].vienImg = this.texturePicture
+            this.items[this.currentIndex].depthIndex = this.backgroundArr[this.currentIndex].depthIndex
+
+            this.items[this.currentIndex].textureIndex = this.backgroundArr[this.currentIndex].textureIndex
+            this.items[this.currentIndex].coverage = this.backgroundArr[this.currentIndex].coverage.color
+            this.items[this.currentIndex].bottom = this.backgroundArr[this.currentIndex].bottom.color
+            console.log("this.items[this.currentIndex].previewData++++++++++",this.backgroundArr[this.currentIndex].previewData)
+　　　　},
+　　　　deep: true
+　　}
+  },
+  computed:{
+    nowLength(){
+      return this.items.length
+    },
+    widthListCl(){
+      let width = (1/this.nowLength*100)+"%"
+      this.widthList = []
+      for(let i = 0;i < this.nowLength;i++){
+        this.widthList.push(width)
+        this.items[i].width = 1/this.nowLength
+      }
+      return this.widthList
+    },
+    nowWidth(){
+      return (1/this.nowLength*100)+"%"
+    },
+    texturePicture(){
+        let url = '';
+        if(this.backgroundArr[this.currentIndex].depthIndex === 0){
+          url = 'url(http://local.zuma.com:8888/background/light_0' + this.backgroundArr[this.currentIndex].textureIndex + '.png)'
+        } else{
+          url = 'url(http://local.zuma.com:8888/background/dark_0' + this.backgroundArr[this.currentIndex].textureIndex + '.png)'
+        }
+        return this.backgroundArr[this.currentIndex].textureIndex==0 ? '' : url;
+    } 
+  },
+  mounted(){
+    // this.backgroundArr.push(this.backgroundData)
+    // this.backgroundArr.push(this.backgroundData)
+    // this.backgroundArr.push(this.backgroundData)
+    // this.backgroundArr[0].previewData = {type: 'color', color: '#3089d5'}
+    // this.backgroundArr[1].previewData = {type: 'img', poster: '#3089d5'}
+    // this.backgroundArr[2].previewData = {type: 'video',src: '', poster: '#3089d5'}
+    // console.log("this.backgroundArr=====================",this.backgroundArr)
+  },
+  methods:{
+    zidingyi(index,obj,video){
+      this.currentIndex = index;
+      // this.backgroundData.previewData = this.items[index].previewData?this.items[index].previewData:obj;
+      this.backgroundArr[this.currentIndex].previewData = this.items[index].previewData?this.items[index].previewData:obj;
+      // this.backgroundData.nowVideo = video;
+      this.backgroundArr[this.currentIndex].nowVideo = video;
+      console.log("index============",index)
+      console.log("this.items============",this.items.length)
+      console.log("this.initObj=======",this.initObj)
+      // console.log("backgroundData.previewData=======",this.backgroundData.previewData)
+      let [obj1,obj2,obj3,obj4,obj5,obj6] = [
+          {type:'editor',title:"编辑",icon:'icon-110',callback:this.cl2},
+          {type:'bannerSet',title:'设置',icon:'icon-shezhi2',callback:this.cl2},
+          {type:'rightAdd',title:'右侧添加列',icon:'icon-icon',callback:this.rightAdd},
+          {type:'leftMove',title:'左移',icon:'icon-zuoyi',callback:this.leftMove},
+          {type:'rightMove',title:'右移',icon:'icon-youyi',callback:this.rightMove},
+          {type:'delBanner',title:'删除',icon:'icon-shanchu2',callback:this.deleteBanner}
+      ]
+      if(index == 0){
+        this.buttonList = [obj1,obj2,obj3,obj5,obj6]
+
+        this.items.forEach((element,i) => {
+          if(i==index){
+            this.items[index].resizeLShow = false
+            this.items[index].resizeRShow = true
+            this.items[index].ColumnLabelShow = true
+            this.items[index].nowIsSelect = true
+          }else{
+            this.items[i].resizeLShow = false
+            this.items[i].resizeRShow = false
+            this.items[i].ColumnLabelShow = false
+            this.items[i].nowIsSelect = false
+          }
+        });
+      }else if(index == (this.items.length-1)){
+        this.buttonList = [obj1,obj2,obj3,obj4,obj6]
+
+        this.items.forEach((element,i) => {
+          if(i==index){
+            this.items[index].resizeLShow = true
+            this.items[index].resizeRShow = false
+            this.items[index].ColumnLabelShow = true
+            this.items[index].nowIsSelect = true
+          }else{
+            this.items[i].resizeLShow = false
+            this.items[i].resizeRShow = false
+            this.items[i].ColumnLabelShow = false
+            this.items[i].nowIsSelect = false
+          }
+        });
+      }else if(index != 0 || index != (this.items.length-1)){
+        this.buttonList = [obj1,obj2,obj3,obj4,obj5,obj6]
+
+        this.items.forEach((element,i) => {
+          if(i==index){
+            this.items[index].resizeLShow = true
+            this.items[index].resizeRShow = true
+            this.items[index].ColumnLabelShow = true
+            this.items[index].nowIsSelect = true
+          }else{
+            this.items[i].resizeLShow = false
+            this.items[i].resizeRShow = false
+            this.items[i].ColumnLabelShow = false
+            this.items[i].nowIsSelect = false
+          }
+        });
+      }
+      // console.log("this.items[i].nowIsSelect============",this.items[i].nowIsSelect)
+    },
+    other(e){
+      zmEditor.$children[0].isCtrlShow = true; //编辑框显示;
+    },
+    cl2() {
+      event.currentTarget.getAttribute("title").trim() == "编辑" ? this.bannerTitle = "横条背景" : this.bannerTitle = "横条设置"
+      event.currentTarget.getAttribute("title").trim() == "编辑" ? this.nowIndex = 0 : this.nowIndex = 1;
+      zmEditor.$store.commit('setBackgroundData', {key: 'comType', value: 'banner'});
+      zmEditor.$store.commit('changePaneData', {key: 'paneType', value: true});
+      zmEditor.$store.commit('changePaneData', {key: 'paneTitle', value: this.bannerTitle});
+
+      zmEditor.$store.commit('changePaneData', {key: 'paneMode', value: "/editor/pane/backgroundPreview.vue"});
+      zmEditor.$store.commit('setBackgroundData', {key: 'nowShowStyle', value: 'img'});
+      // this.backgroundData.tabIndex = this.nowIndex;
+      this.backgroundArr[this.currentIndex].tabIndex = this.nowIndex;
+      // this.nowVideo = this.$refs.video;
+      console.log(zmEditor.$store.state.background.settingData)
+    },
+    fullOrNotPage:function(){
+        let FullPageObj = {type:'fullPage',title:"全屏",icon:'icon-quanping1',callback:this.fullOrNotPage}
+        let notFullPageObj = {type:'notFullPage',title:"取消全屏",icon:'icon-puman',callback:this.fullOrNotPage}
+        if(this.buttonList[0].type === "notFullPage"){
+            this.style.width = 1200;
+            this.style.left = 0
+            this.buttonList.splice(0,1,FullPageObj)
+        }else{
+            this.style.width = 1893;
+            this.style.left = -345
+            this.buttonList.splice(0,1,notFullPageObj)
+        }
+    },
+    bannerMainClick(){
+      this.mainBannerVeinShow = !this.mainBannerVeinShow
+    },
+    rightAdd(){
+      // this.items.splice(this.currentIndex,0,{
+      //   type:'img',
+      //   resizeLShow:false,
+      //   resizeRShow:false,
+      //   ColumnLabelShow:false,
+      //   width:null,
+      //   previewData:this.backgroundData.previewData,
+      //   vienImg:this.items[this.currentIndex].vienImg,
+      //   coverage:this.items[this.currentIndex].coverage?this.items[this.currentIndex].coverage:'rgba(255,255,255,0)',
+      //   bottom:this.items[this.currentIndex].bottom?this.items[this.currentIndex].bottom:'rgba(255,255,255,0)',
+      //   component: i
+      // });
+      this.items.splice(this.currentIndex,0,this.items[this.currentIndex]);
+    },
+    deleteBanner(){
+      this.items.splice(this.currentIndex,1);
+      let [obj1,obj2,obj3,obj4,obj5,obj6] = [
+          {type:'editor',title:"编辑",icon:'icon-110',callback:this.cl2},
+          {type:'bannerSet',title:'设置',icon:'icon-shezhi2',callback:this.cl2},
+          {type:'rightAdd',title:'右侧添加列',icon:'icon-icon',callback:this.rightAdd},
+          {type:'leftMove',title:'左移',icon:'icon-zuoyi',callback:this.leftMove},
+          {type:'rightMove',title:'右移',icon:'icon-youyi',callback:this.rightMove},
+          {type:'delBanner',title:'删除',icon:'icon-shanchu2',callback:this.deleteBanner}
+      ]
+      if(this.items.length == 1){
+        this.buttonList = [obj1,obj2,obj3,obj6]
+      }
+    },
+    leftMove(){
+      var nowEle = this.items[this.currentIndex]
+      var preEle = this.items[this.currentIndex-1]
+      //当前被选中的列的前一列位置被后一列替换
+      this.items.splice(this.currentIndex-1,1,nowEle)
+      //当前被选中的列的位置被前一列替换
+      this.items.splice(this.currentIndex,1,preEle)
+      // let num = 0
+      // this.items.splice(++num,1,{
+      //   type:'img',
+      //   resizeLShow:false,
+      //   resizeRShow:false,
+      //   ColumnLabelShow:false,
+      //   width:null,
+      //   previewData:this.backgroundData.previewData,
+      //   vienImg:this.texturePicture,
+      //   textureIndex:0,
+      //   coverage:this.items[this.currentIndex].coverage?this.items[this.currentIndex].coverage:'rgba(255,255,255,0)',
+      //   bottom:this.items[this.currentIndex].bottom?this.items[this.currentIndex].bottom:'rgba(255,255,255,0)',
+      //   component: i
+      // });
+    },
+    rightMove(){
+      var nowEle = this.items[this.currentIndex]
+      var nextEle = this.items[this.currentIndex+1]
+      //当前被选中的列的下一列位置被上一列替换
+      this.items.splice(this.currentIndex+1,1,nowEle)
+      // //当前被选中的列的位置被下一列替换
+      this.items.splice(this.currentIndex,1,nextEle)
+      // this.items.splice(1,1,{
+      //   type:'video',
+      //   resizeLShow:false,
+      //   resizeRShow:false,
+      //   ColumnLabelShow:false,
+      //   width:null,
+      //   previewData:this.backgroundData.previewData,
+      //   vienImg:this.items[this.currentIndex].vienImg,
+      //   textureIndex:0,
+      //   coverage:'rgba(255,255,255,0)',
+      //   bottom:'rgba(255,255,255,0)',
+      //   component: v
+      // });
+    }
+  }
+}
+</script>
+<style scoped>
+ .zm-main-banner-vein{
+    z-index:1;
+    width: 100%; 
+    height: 100%;
+    left:0px;
+    top:0px;
+    position:absolute;
+  }
+</style>

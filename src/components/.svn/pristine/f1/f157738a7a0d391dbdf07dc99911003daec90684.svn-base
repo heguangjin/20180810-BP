@@ -1,0 +1,237 @@
+<template>
+    <div class="setBorder">
+      <div class="top">
+        <div class="t_left">圆角(px)</div>
+        <div class="t_right">
+          <span class="sel" @click="allinp"></span>
+          <i class="iconfont icon-31xuanze" v-show="!all" @click="allinp"></i>
+          同步
+          <input type="text" v-model="five" :class="{disabled:all}" :placeholder="five" :disabled="all" @keyup="fivekeyup(five)">
+        </div>
+      </div>
+      <div class="bot">
+        <input type="text" v-model="one" @keyup="onekeyup(one)" :placeholder="one" class="bot_inp inp_lt" :class="{disabled:topleft}" :disabled="topleft">
+        <input type="text" v-model="two"  @keyup="twokeyup(two)" :placeholder="two" class="bot_inp inp_rt" :class="{disabled:topright}" :disabled="topright">
+        <input type="text" v-model="three"  @keyup="threekeyup(three)" :placeholder="three" class="bot_inp inp_lb" :class="{disabled:leftbot}" :disabled="leftbot">
+        <input type="text" v-model="four"  @keyup="fourkeyup(four)" :placeholder="four" class="bot_inp inp_rb" :class="{disabled:rifgtbot}" :disabled="rifgtbot">
+        <div class="midWrap">
+          <div class="mid"></div>
+          <input type="button" class="bot_inp inp_lt" :class="{disabled:topleft}" :disabled="botDisabled" @click="ltClick">
+          <input type="button" class="bot_inp inp_rt" :class="{disabled:topright}" :disabled="botDisabled" @click="rtClick">
+          <input type="button" class="bot_inp inp_lb" :class="{disabled:leftbot}" :disabled="botDisabled" @click="lbClick">
+          <input type="button" class="bot_inp inp_rb" :class="{disabled:rifgtbot}" :disabled="botDisabled" @click="rbClick">
+        </div>
+      </div>
+    </div>
+</template>
+
+<script>
+  export default {
+    name: "set-border",
+    data(){
+      return{
+        topleft:false,
+        topright:false,
+        leftbot:false,
+        rifgtbot:false,
+        all:true,
+        botDisabled:false,
+        one:"",
+        two:"",
+        three:"",
+        four:"",
+        five:""
+      }
+    },
+    props:['prop'],
+    mounted(){
+      this.one = this.prop.style['border-top-left-radius'] == ''? 0 : parseInt(this.prop.style['border-top-left-radius']) ;
+      this.two = this.prop.style['border-top-right-radius'] == ''? 0 : parseInt(this.prop.style['border-top-right-radius']) ;
+      this.three = this.prop.style['border-bottom-left-radius'] == ''? 0 : parseInt(this.prop.style['border-bottom-left-radius']) ;
+      this.four = this.prop.style['border-bottom-right-radius'] == ''? 0 : parseInt(this.prop.style['border-bottom-right-radius']) ;
+      this.five = this.prop.style['border-radius'] == ''? 0 : parseInt(this.prop.style['border-radius']) ;
+    },
+    methods:{
+      allinp(){
+        this.all = !this.all ;
+        if(this.all == true){
+          this.topleft = false ;
+          this.topright = false ;
+          this.leftbot = false ;
+          this.rifgtbot = false ;
+          this.botDisabled = false ;
+        }else {
+          this.topleft = true ;
+          this.topright = true ;
+          this.leftbot = true ;
+          this.rifgtbot = true ;
+          this.botDisabled = true ;
+        }
+      },
+      ltClick(){
+        this.topleft = !this.topleft ;
+      },
+      rtClick(){
+        this.topright = !this.topright ;
+      },
+      lbClick(){
+        this.leftbot = !this.leftbot ;
+      },
+      rbClick(){
+        this.rifgtbot = !this.rifgtbot ;
+      },
+      fivekeyup(con){
+        let self = this ;
+        zmEditor.selectComponentList.forEach((item)=>{
+          if(item.component.name === "demo"){
+            item.prop.style['borderRadius'] = self.five + "px" ;
+          }
+        })
+      },
+      onekeyup(con){
+        let self = this ;
+        zmEditor.selectComponentList.forEach((item)=>{
+          if(item.component.name === "demo"){
+            item.prop.style['borderTopLeftRadius'] = self.one + "px" ;
+          }
+        })
+      },
+      twokeyup(con){
+        let self = this ;
+        zmEditor.selectComponentList.forEach((item)=>{
+          if(item.component.name === "demo"){
+            item.prop.style['borderTopRightRadius'] = self.two + "px" ;
+          }
+        })
+      },
+      threekeyup(con){
+        let self = this ;
+        zmEditor.selectComponentList.forEach((item)=>{
+          if(item.component.name === "demo"){
+            item.prop.style['borderBottomLeftRadius'] = self.three + "px" ;
+          }
+        })
+      },
+      fourkeyup(con){
+        let self = this ;
+        zmEditor.selectComponentList.forEach((item)=>{
+          if(item.component.name === "demo"){
+            item.prop.style['borderBottomRightRadius'] = self.four + "px" ;
+          }
+        })
+      },
+    },
+
+  }
+</script>
+
+<style scoped>
+  .setBorder{
+    margin: 0 auto;
+    width: 245px;
+    height: 200px;
+    font-size: 14px;
+    border-bottom: 1px solid #D7D7D7 ;
+  }
+  input{
+    width: 34px;
+    height: 24px;
+    /*background: rgb(215, 215, 215);*/
+    border-radius: 3px;
+    border: 1px solid #D7D7D7;
+    outline: none;
+    padding: 0 3px;
+    text-align: center;
+    line-height: 26px;
+  }
+  .disabled{
+    background: #D7D7D7;
+  }
+  .top{
+    height: 50px;
+    line-height: 50px;
+  }
+  .t_right{
+    float: right;
+    position: relative;
+    width: 75px;
+    height: 50px;
+    padding-left: 23px;
+  }
+  .t_left{
+    float: left;
+  }
+  .iconfont{
+    font-size: 20px;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+  }
+  .icon-31xuanze{
+    font-size: 18px;
+    left: 1px;
+    color: #000;
+    cursor: pointer;
+  }
+  .sel{
+    display: block;
+    position: absolute;
+    top: 17px;
+    left: 1px;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  ::-webkit-input-placeholder{
+    color: black;
+  }
+  .bot{
+    height: 140px;
+    /*background: #97c4ea;*/
+    width: 245px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bot_inp{
+    position: absolute;
+  }
+  .inp_lt{top: 0; left: 0;}
+  .inp_rt{top: 0;right: 0;}
+  .inp_lb{ bottom: 0;left: 0;}
+  .inp_rb{bottom: 0;right: 0;}
+  .mid{
+    width: 90px;
+    height: 50px;
+    border: 1px solid #888;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -45px;
+    margin-top: -25px;
+    border-radius: 10px;
+    z-index: 2;
+  }
+  .midWrap{
+    width: 118px;
+    height: 78px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -59px;
+    margin-top: -39px;
+    border-radius: 10px;
+  }
+  .midWrap input{
+    width: 30px;
+    height: 30px;
+    border-radius: 0px;
+    background: rgb(151, 196, 234);
+    border: 0;
+  }
+  .midWrap .disabled{
+    background: #D7D7D7;
+  }
+</style>
